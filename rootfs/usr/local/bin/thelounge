@@ -4,4 +4,4 @@
 cd /config
 
 # run with limited permissions
-exec s6-setuidgid $PUID:$PGID /usr/bin/node /app/index.js "$@"
+exec s6-setuidgid $PUID:$PGID /usr/bin/node /app/index.js --config "host=0.0.0.0" "$@"
