@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+# run (from /usr/local/bin)
+exec thelounge start
