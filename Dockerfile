@@ -35,17 +35,16 @@ RUN NODE_ENV=production yarn build
 # cleanup
 RUN yarn install --production --ignore-scripts --prefer-offline && \
     find ./ -type f \( \
-        -iname "*.cmd" -o -iname "*.bat" -o \
-        -iname "*.map" -o -iname "*.md" -o \
-        -iname "*.ts" -o -iname "*.git*" \
+        -iname "*.ts" -o -name "*.map" -o -iname "*.md" -o -iname "*.sh" -o \
+        -iname "babel.config*" -o -iname "webpack.config*" -o -iname "tsconfig*" \
     \) -delete && \
     find ./node_modules -type f \( \
-        -iname "Makefile" -o -iname "AUTHORS*" -o \
-        -iname "LICENSE*" -o -iname "CONTRIBUTING*" -o \
-        -iname "CHANGELOG*" -o -iname "README*" \
+        -iname "Makefile*" -o -iname "README*" -o -iname "LICENSE*" -o -iname "CHANGELOG*" \
     \) -delete && \
-    find ./ -iname "node-gyp*" | xargs rm -rf && \
-    find ./ -type d -iname ".github" | xargs rm -rf
+    find ./node_modules -type d \( \
+        -iname "test" -o -iname "node-gyp" -o -iname ".github" \
+    \) -prune | xargs rm -rf && \
+    ln -sf ../package.json ./dist/package.json
 
 # runtime stage ================================================================
 FROM base
