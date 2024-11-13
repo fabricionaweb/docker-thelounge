@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1-labs
-FROM public.ecr.aws/docker/library/alpine:3.19 AS base
+FROM public.ecr.aws/docker/library/alpine:3.20 AS base
 ENV TZ=UTC
 WORKDIR /src
 
@@ -18,7 +18,7 @@ RUN echo "/config" > .thelounge_home
 FROM base AS build-app
 
 # dependencies
-RUN apk add --no-cache nodejs-current && corepack enable
+RUN apk add --no-cache yarn
 
 # node_modules
 COPY --from=source /src/package*.json /src/yarn.lock /src/tsconfig*.json ./
@@ -63,7 +63,7 @@ COPY --from=build-app /src/public /app/public
 COPY ./rootfs/. /
 
 # runtime dependencies
-RUN apk add --no-cache tzdata s6-overlay nodejs-current curl
+RUN apk add --no-cache tzdata s6-overlay nodejs curl
 
 # run using s6-overlay
 ENTRYPOINT ["/entrypoint.sh"]
