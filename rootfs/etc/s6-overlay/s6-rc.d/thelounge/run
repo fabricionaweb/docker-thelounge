@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv sh
 
 # run (from /usr/local/bin)
-exec thelounge start
+exec thelounge --config "host=0.0.0.0" start
